@@ -1,9 +1,13 @@
 from flask import Flask, request, jsonify, render_template
+from flask_cors import CORS
 import requests
 import time
 import os
 
 app = Flask(__name__)
+
+# Mở CORS cho tất cả các domain
+CORS(app)
 
 # API key từ AssemblyAI
 API_KEY = '1eede8749d6b4a8e94af2b9f16a2e5ef'
@@ -88,6 +92,10 @@ def upload_file():
         return jsonify({'transcript': transcription_text})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+@app.route('/')
+def home():
+    return "CORS is now enabled for all domains!"
 
 @app.route('/')
 def index():
