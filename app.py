@@ -1,9 +1,13 @@
 from flask import Flask, request, jsonify, render_template
+from flask_cors import CORS
 import requests
 import time
 import os
 
 app = Flask(__name__)
+
+# Mở CORS cho toàn bộ ứng dụng
+CORS(app)
 
 # API key từ AssemblyAI
 API_KEY = '1eede8749d6b4a8e94af2b9f16a2e5ef'
