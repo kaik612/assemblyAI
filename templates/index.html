@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Audio File</title>
+</head>
+<body>
+    <h1>Upload and Transcribe Japanese Audio</h1>
+
+    <!-- Form để upload file -->
+    <form id="upload-form">
+        <input type="file" id="audio-file" accept="audio/*" required>
+        <button type="submit">Upload & Transcribe</button>
+    </form>
+
+    <!-- Div để hiển thị kết quả phiên âm -->
+    <div id="result"></div>
+
+    <script>
+        const form = document.getElementById('upload-form');
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const file = document.getElementById('audio-file').files[0];
+            if (!file) {
+                alert("Please select an audio file.");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            // Gửi file âm thanh đến server Flask
+            const response = await fetch('/upload', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+            document.getElementById('result').innerText = result.transcript || 'Error: ' + result.error;
+        });
+    </script>
+</body>
+</html>
